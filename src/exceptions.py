@@ -19,31 +19,31 @@ class DuplicatedCouponCode(BaseCouponException):
 		super().__init__(409, 'There already is a coupon with this code')
 
 
-class CouponNotFound(Exception):
+class CouponNotFound(BaseCouponException):
 	
 	def __init__(self):
 		super().__init__(404, 'Coupon not found')
 
 
-class CouponExceededMaxUsage(Exception):
+class CouponExceededMaxUsage(BaseCouponException):
 	
 	def __init__(self):
 		super().__init__(400, 'Coupon exceeded maximum usage')
 
 
-class CouponExpired(Exception):
+class CouponExpired(BaseCouponException):
 	
 	def __init__(self):
 		super().__init__(400, 'Coupon expired')
 
 
-class PurchaseAmountNotReached(Exception):
+class PurchaseAmountNotReached(BaseCouponException):
 	
 	def __init__(self):
 		super().__init__(400, 'Minimun purchase amount not reached')
 
 
-class NotFirstPurchase(Exception):
+class NotFirstPurchase(BaseCouponException):
 	
 	def __init__(self):
 		super().__init__(400, 'Coupon for first purchase only')

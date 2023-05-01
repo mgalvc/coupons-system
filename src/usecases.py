@@ -19,7 +19,7 @@ class CouponUsecases:
 			raise exceptions.CouponExceededMaxUsage
 		if datetime.utcnow() > coupon.expires_at:
 			raise exceptions.CouponExpired
-		if purchase.purchase_value < coupon.min_purchase:
+		if purchase.amount < coupon.min_purchase:
 			raise exceptions.PurchaseAmountNotReached
 		if coupon.discount_type == DiscountType.FIXED_FOR_FIRST_PURCHASE and not purchase.is_first_purchase:
 			raise exceptions.NotFirstPurchase
@@ -27,7 +27,7 @@ class CouponUsecases:
 		discount_value = coupon.discount_value
 
 		if coupon.discount_type == DiscountType.PERCENTAGE:
-			discount_value = purchase.purchase_value * coupon.discount_value
+			discount_value = purchase.amount * coupon.discount_value
 
 		await self.__repo.burn(coupon)
 

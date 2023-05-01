@@ -1,8 +1,17 @@
 from sqlalchemy import create_engine
+from sqlalchemy.engine import URL
 from sqlalchemy.orm import sessionmaker
+from .config import settings
 
 
-engine = create_engine('postgresql://postgres:root@localhost:5432/spotlar', echo=True)
+url = URL.create(
+	drivername='postgresql',
+    username=settings.DB_USERNAME,
+    password=settings.DB_PASSWORD,
+    host=settings.DB_HOST,
+    database=settings.DB_NAME
+)
+engine = create_engine(url, echo=True)
 Session = sessionmaker(bind=engine)
 
 

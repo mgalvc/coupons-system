@@ -35,7 +35,7 @@ class Coupon(CouponBase):
         
 
 class Purchase(BaseModel):
-    purchase_value: float
+    amount: float
     is_first_purchase: bool
     
 
