@@ -5,7 +5,7 @@ from .config import settings
 
 
 url = URL.create(
-	drivername='postgresql',
+    drivername='postgresql',
     username=settings.DB_USERNAME,
     password=settings.DB_PASSWORD,
     host=settings.DB_HOST,
@@ -19,4 +19,3 @@ def get_db():
     db = Session()
     yield db
     db.close()
-    

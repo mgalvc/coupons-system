@@ -5,30 +5,30 @@ from . import exceptions
 
 
 class CouponUsecases:
-    
-	def __init__(self, repo: CouponRepo):
-		self.__repo = repo
 
-	async def create_coupon(self, coupon: CreateCoupon):
-		return await self.__repo.create(coupon)
+    def __init__(self, repo: CouponRepo):
+        self.__repo = repo
 
-	async def burn_coupon(self, code: str, purchase: Purchase):
-		coupon = await self.__repo.get_by_code(code)
-		
-		if len(coupon.burned) == coupon.max_usage:
-			raise exceptions.CouponExceededMaxUsage
-		if datetime.utcnow() > coupon.expires_at:
-			raise exceptions.CouponExpired
-		if purchase.amount < coupon.min_purchase:
-			raise exceptions.PurchaseAmountNotReached
-		if coupon.discount_type == DiscountType.FIXED_FOR_FIRST_PURCHASE and not purchase.is_first_purchase:
-			raise exceptions.NotFirstPurchase
+    async def create_coupon(self, coupon: CreateCoupon):
+        return await self.__repo.create(coupon)
 
-		discount_value = coupon.discount_value
+    async def burn_coupon(self, code: str, purchase: Purchase):
+        coupon = await self.__repo.get_by_code(code)
 
-		if coupon.discount_type == DiscountType.PERCENTAGE:
-			discount_value = purchase.amount * coupon.discount_value
+        if len(coupon.burned) == coupon.max_usage:
+            raise exceptions.CouponExceededMaxUsage
+        if datetime.utcnow() > coupon.expires_at:
+            raise exceptions.CouponExpired
+        if purchase.amount < coupon.min_purchase:
+            raise exceptions.PurchaseAmountNotReached
+        if coupon.discount_type == DiscountType.FIXED_FOR_FIRST_PURCHASE and not purchase.is_first_purchase:
+            raise exceptions.NotFirstPurchase
 
-		await self.__repo.burn(coupon)
+        discount_value = coupon.discount_value
 
-		return Discount(coupon=code, discount=discount_value)
+        if coupon.discount_type == DiscountType.PERCENTAGE:
+            discount_value = purchase.amount * coupon.discount_value
+
+        await self.__repo.burn(coupon)
+
+        return Discount(coupon=code, discount=discount_value)
