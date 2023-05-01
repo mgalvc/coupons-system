@@ -4,7 +4,7 @@
 
 All dependencies are listed in the file `requirements.txt`. Run `pip install -r requirements.txt` to have them all installed.
 
-This project runs over a Postgres database so you need a server up and running.
+This project runs over a Postgres database so you need a server up and running. The file `db_setup.sql` contains the SQL scripts to create the tables used by this application.
 
 # How to Run
 
